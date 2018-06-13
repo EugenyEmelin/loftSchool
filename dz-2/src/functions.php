@@ -17,7 +17,11 @@ function task2($operator, ...$numbers)
         return $errorMsg .= 'Данные отсутствуют<br>';
     }
     foreach($numbers as $number) {
-        if (!is_int($number) && !is_float($number)) {
+        if ($number === 0 && $operator === '/') {
+            $error = true;
+            return $errorMsg .= 'На ноль делить нельзя.<br>';
+            break;
+        } elseif (!is_int($number) && !is_float($number)) {
             $error = true;
             return $errorMsg .= 'В качестве аргументов допустимы только целые и десятичные числа.<br>';
             break;
