@@ -99,8 +99,8 @@ function task4($src)
     }
      echo array_key_exists('title', $result) ?
          "title: {$result['title']} <br>" :
-         'Неудалось найти название страницы<br>';
+         'Не удалось найти название страницы<br>';
     echo array_key_exists('page_id', $result) ?
         "page_id: {$result['page_id']} <br>" :
-        'Неудалось найти ID страницы<br>';
+        'Не удалось найти ID страницы<br>';
 }
