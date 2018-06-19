@@ -27,11 +27,15 @@ function addOrder($user_id)
 
     //Отправка email или запись сообщения о заказе в файл
     $order_id = $dbh->lastInsertId();
+    $ordersCount = getUserOrders($user_id);
     $paymentMethod = $payment === 'cash' ? 'Наличный расчёт' : 'Оплата по карте';
     $mailSubject = "Заказ №$order_id\n\r";
     $mailMsg = "$mailSubject\n\r$name, ваш заказ будет доставлен по адресу:\n\r\n\r";
     $mailMsg .= "Ул. $street, д. $home-$part, кв.$appt, этаж $floor\n\r\n\r";
     $mailMsg .= "Способ оплаты: $paymentMethod\n\r\n\r";
+    $mailMsg .= "Ваш заказ DarkBeefBurger за 500 рублей, 1 шт\n\r\n\r";
+    if ($ordersCount === 1) $mailMsg .= "Спасибо! Это Ваш первый заказ.";
+    if ($ordersCount > 1) $mailMsg .= "Спасибо! Это уже $ordersCount-й заказ";
     echo 'Заказ оформлен! ';
     if (mail($email, $mailSubject, $mailMsg, $mailSubject, $mailParam)) {
         echo 'Письмо отправлено. ';
@@ -71,4 +75,12 @@ function findUser()
         echo 'Пользователь не найден. ';
         return false;
     }
+}
+function getUserOrders($user_id)
+{
+    global $dbh;
+    $orders = $dbh->prepare("SELECT user_id FROM orders WHERE user_id=:user_id");
+    $orders->bindParam(':user_id', $user_id, PDO::PARAM_STR);
+    $orders->execute();
+    return $orders->rowCount();
 }

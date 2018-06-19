@@ -1,6 +1,7 @@
 <?php
 require_once '../src/functions.php';
 require_once '../src/config.php';
+require_once '../src/db.php';
 
 $name = normalize($_POST['name']);
 $email = normalize($_POST['email']);
@@ -13,14 +14,6 @@ $floor = normalize($_POST['floor']);
 $comment = normalize($_POST['comment']);
 $payment = normalize($_POST['payment']);
 $callback = isset($_POST['callback']) ? normalize($_POST['callback']) : 0;
-$dsn = "$dbType:dbname=$dbName;host=$server;charset=utf8";
-
-try {
-    $dbh = new PDO($dsn, $username, $pwd, [PDO::MYSQL_ATTR_FOUND_ROWS => true]);
-} catch (PDOException $e) {
-    echo 'Не удалось подключиться к базе данных:' . $e->getMessage();
-    exit();
-}
 
 if ($user_id = findUser()) { //если пользователь уже есть в базе запишем его id в $user_id
     addOrder($user_id); //добавим заказ от найденного пользователя
