@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	'use strict'
 	document.querySelector('.order__form-button').addEventListener('click', e => {
 		e.preventDefault()
-		let formErrMsg = document.querySelector('#formErrMsg')
 		let form = document.querySelector('#order-form')
 		let formData = new FormData(form)
 		let valid = true
@@ -55,7 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				})
 				.then(data => {
 					form.reset()
-					document.querySelector('#form-success').innerHTML = '<span style="color:green;">Заказ оформлеен</span>'
+					document.querySelector('#form-success').innerHTML = '<span style="color:green;font-weight:bold;">Заказ оформлеен!</span>'
+					setTimeout(() => {
+						document.querySelector('#form-success span').remove()
+					}, 5555)
 					console.log(data)
 				})
 				.catch(error => document.querySelector('#form-success').innerHTML = 'Ошибка: ' + error)
