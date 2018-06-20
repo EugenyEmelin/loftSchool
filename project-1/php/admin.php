@@ -18,7 +18,7 @@ $orders_select_sql = "SELECT order_id, user_id, street, home, part, appt, floor,
 $orders_select = $dbh->prepare($orders_select_sql);
 $orders_select->execute();
 echo '<table border="1" cellspacing="0" cellpadding="3">';
-echo '<h3>Спсок заказов</h3>';
+echo '<h3>Список заказов</h3>';
 echo '<tr>
         <th>orderID</th>
         <th>userID</th>
