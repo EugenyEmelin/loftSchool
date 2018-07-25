@@ -1,7 +1,6 @@
 <?php
 namespace App\Core\base;
 
-
 //use AppController\Core\View;
 
 abstract class Controller

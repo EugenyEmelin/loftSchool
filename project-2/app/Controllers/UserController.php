@@ -8,9 +8,10 @@ class UserController extends AppController
     public function all()
     {
         $userModel = new User();
-        $users = $userModel->all();
-        $title = 'Список пользователей';
+        $this->setMetadata('Пользователи', 'Страница вывода списка пользователей', 'ключевые слова');
+        $metadata = $this->metadata;
+        $users = \R::findAll('users');
         $theads = ['Фото', 'Имя', 'Email', 'Возраст', 'Дата регистрации', 'Описание'];
-        $this->set(compact('title', 'users', 'theads'));
+        $this->set(compact('title', 'users', 'theads', 'metadata'));
     }
 }

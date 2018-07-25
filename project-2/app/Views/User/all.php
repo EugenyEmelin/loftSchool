@@ -14,7 +14,7 @@
             <?php
             foreach ($users as $user) {
                 echo '<tr>';
-                    echo "<td><img src=/loftSchool/project-2/public/img/users-images/{$user['photo']} width='30' height='30'></td>";
+                    echo "<td><img src=/public/img/users-images/{$user['photo']} width='30' height='30'></td>";
                     echo "<td>{$user['username']}</td>";
                     echo "<td>{$user['email']}</td>";
                     echo "<td>{$user['age']}</td>";
