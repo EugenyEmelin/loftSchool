@@ -39,4 +39,15 @@ abstract class Controller
     public function set(array $data){
         $this->data = $data;
     }
+    public function isAjax()
+    {
+        return
+            (isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+            (strtolower(getenv('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest'));
+    }
+    public function loadView($view, $params = [])
+    {
+        extract($params);
+        require_once APP_PATH."/Views/{$this->route['controller']}/$view.php";
+    }
 }

@@ -22,6 +22,13 @@ class View
      * @var
      */
     protected $layout;
+    /**
+     * массив скриптов
+     * @var array
+     */
+    public $scripts = [];
+
+    public static $metaData = ['title'=>'', 'description'=>'', 'keywords'=>''];
 
     public function __construct($route, $layout = '', $view = '')
     {
@@ -50,10 +57,37 @@ class View
         if ($this->layout !== false) {
             $fileLayout = APP_PATH . "/views/layouts/{$this->layout}.php";
             if (is_file($fileLayout)) {
+                $content = $this->cutScripts($content);
+                $scripts = [];
+                if (!empty($this->scripts[0])) {
+                    $scripts = $this->scripts[0];
+                }
                 require_once $fileLayout;
             } else {
                 echo "Не найден шаблон $fileLayout";
             }
         }
+    }
+
+    public function cutScripts($content)
+    {
+        $pattern = "#<script.*?>.*?</script>#si";
+        preg_match_all($pattern, $content, $this->scripts);
+        if (!empty($this->scripts)) {
+            $content = preg_replace($pattern, '', $content);
+        }
+        return $content;
+    }
+    public static function getMetaData()
+    {
+        echo '<title>'.self::$metaData['title'].'</title>';
+        echo '<meta name="description" content="'.self::$metaData['description'].'">';
+        echo '<meta name="keywords" content="'.self::$metaData['keywords'].'">';
+    }
+    public static function setMetaData($title = '', $description = '', $keywords = '')
+    {
+        self::$metaData['title'] = $title;
+        self::$metaData['description'] = $description;
+        self::$metaData['keywords'] = $keywords;
     }
 }

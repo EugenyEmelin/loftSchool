@@ -10,7 +10,7 @@ abstract class Model
 
     public function __construct()
     {
-        $this->pdo = Db::connect();
+        $this->pdo = Db::instance();
     }
 //    public function query($sql)
 //    {

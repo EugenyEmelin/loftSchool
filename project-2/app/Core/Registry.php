@@ -1,11 +1,16 @@
 <?php
 namespace App\Core;
 
+/**
+ * Class Registry
+ * Класс-фабрика. Создаёт объекты-компоненты, названия которых хранятся в файле конфигурации
+ * @package App\Core
+ */
 class Registry
 {
-    public static $objects = [];
-    protected static $instance;
+    use SingletonTrait;
 
+    public static $objects = [];
     /**
      * Registry constructor.
      * Заполняем массив $objects компонентами из файла конфигурации, предварительно создавая экземпляры их объектов
@@ -18,18 +23,19 @@ class Registry
                 self::$objects[$name] = new $component();
             else trigger_error("Не найден класс $component");
         }
-        print_r(self::$objects); //debug
     }
-
-    /**
-     * singleton метод
-     * @return Registry
-     */
-    public static function instance()
+    public function __get($name)
     {
-        if (self::$instance === null) {
-            self::$instance = new self;
+        if (is_object(self::$objects[$name]))
+            return self::$objects[$name];
+        else
+            trigger_error("$name не является объектом");
+        return false;
+    }
+    public function __set($name, $object)
+    {
+        if (!isset(self::$objects[$name])) {
+            self::$objects[$name] = new $object();
         }
-        return self::$instance;
     }
 }

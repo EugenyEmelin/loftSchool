@@ -77,14 +77,13 @@ class Router
                     $controllerObj->$action();
                     $controllerObj->view();
                 } else {
-                    echo "Метод <b>$controller:$action не найден";
+                    throw new \Exception("Метод <b>$controller:$action не найден", 404);
                 }
             } else {
-                echo "Контроллер <b>$controller</b> не найден";
+                throw new \Exception("Контроллер <b>$controller</b> не найден", 404);
             }
         } else {
-            http_response_code(404);
-            include_once WWW.'/404.html';
+            throw new \Exception("Страница не найдена", 404);
         }
     }
 }
